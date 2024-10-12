@@ -2,9 +2,7 @@ name: Sync Repository
 
 on:
   schedule:
-    - cron: 0 0 * * *  # daily at midnight
-  repository_dispatch:
-    types: [sync]
+    - cron: */1 * * * *  # every minute
 
 jobs:
   sync:
