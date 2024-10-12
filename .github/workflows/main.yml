@@ -1,0 +1,22 @@
+name: Sync Repository
+
+on:
+  schedule:
+    - cron: 0 0 * * *  # daily at midnight
+  repository_dispatch:
+    types: [sync]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Fetch upstream
+        run: |
+          git fetch https://github.com/Kingrashy12/secptrum-ui.git +refs/heads/main:refs/remotes/upstream/main
+      - name: Push to destination
+        run: |
+          git push origin upstream/main:master
