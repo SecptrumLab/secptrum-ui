@@ -18,80 +18,65 @@ const StickyBar = () => {
   const light = mode === 'light';
 
   return (
-    <StickyBarWrap>
-      <StyledBar light={light}>
-        <BarContent>
-          <BarStack>
-            <>
-              {sidebarlinks.map((link, index) => (
-                <Collapsible
-                  header={link.header}
-                  key={index}
-                  isActive={
-                    link.links.some((l) => pathname === l.uri) ||
-                    link.links.some((l) =>
-                      pathname.includes(l.label.toLowerCase())
-                    )
-                  }
-                >
-                  <>
-                    {link.links.map((doc, index) => (
-                      <DocsContent
-                        key={index}
-                        notavailable={doc?.not_available}
-                      >
-                        <DocsCategory hidden={!doc.category}>
-                          {doc?.category}
-                        </DocsCategory>
-                        <Link href={doc.uri}>
-                          <DocLinkWrap
-                            isactive={pathname === doc.uri.toString()}
-                            notavailable={doc?.not_available}
-                            light={light}
-                          >
-                            <DocsLabel notavailable={doc?.not_available}>
-                              {doc.label}
-                            </DocsLabel>
-                            <DocAlert notavailable={doc?.not_available}>
-                              Soon
-                            </DocAlert>
-                          </DocLinkWrap>
-                        </Link>
-                      </DocsContent>
-                    ))}
-                  </>
-                </Collapsible>
-              ))}
-            </>
-          </BarStack>
-        </BarContent>
-      </StyledBar>
-    </StickyBarWrap>
+    <StyledBar light={light}>
+      <BarContent>
+        <BarStack>
+          <>
+            {sidebarlinks.map((link, index) => (
+              <Collapsible
+                header={link.header}
+                key={index}
+                isActive={
+                  link.links.some((l) => pathname === l.uri) ||
+                  link.links.some((l) =>
+                    pathname.includes(l.label.toLowerCase())
+                  )
+                }
+              >
+                <>
+                  {link.links.map((doc, index) => (
+                    <DocsContent key={index} notavailable={doc?.not_available}>
+                      <DocsCategory hidden={!doc.category}>
+                        {doc?.category}
+                      </DocsCategory>
+                      <Link href={doc.uri}>
+                        <DocLinkWrap
+                          isactive={pathname === doc.uri.toString()}
+                          notavailable={doc?.not_available}
+                          light={light}
+                        >
+                          <DocsLabel notavailable={doc?.not_available}>
+                            {doc.label}
+                          </DocsLabel>
+                          <DocAlert notavailable={doc?.not_available}>
+                            Soon
+                          </DocAlert>
+                        </DocLinkWrap>
+                      </Link>
+                    </DocsContent>
+                  ))}
+                </>
+              </Collapsible>
+            ))}
+          </>
+        </BarStack>
+      </BarContent>
+    </StyledBar>
   );
 };
 
 export default StickyBar;
 
-const StickyBarWrap = styled(Box)`
-  width: 350px;
-  position: relative;
-  height: 100vh;
-
-  @media screen and (max-width: 820px) {
-    display: none;
-  }
-`;
-
-const StyledBar = styled<DivProps & { light: boolean }>('div')`
+const StyledBar = styled<{ light: boolean }>('div')`
   height: 100vh;
   background: ${(props) => props.theme?.colors?.background};
-  width: 280px;
+  width: 260px;
   flex-direction: column;
   border-right: 1px solid
     ${(props) => (props.light ? colors.gray[300] : colors.neutral[800])};
-  position: fixed;
-  top: 0;
+  position: sticky;
   flex-shrink: 0;
+  top: 0;
   padding-right: 3px;
   display: flex;
 
